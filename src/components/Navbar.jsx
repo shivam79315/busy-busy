@@ -1,7 +1,45 @@
+// src/components/Navbar.jsx
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setSearchTerm } from "../features/search/searchSlice";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
 export default function Navbar() {
+  const [isScrolled, setIsScrolled] = useState(false);
+  const location = useLocation();
+
+  const dispatch = useDispatch();
+  const searchTerm = useSelector((state) => state.search.searchTerm);
+  const navigate = useNavigate();
+
+  // Scroll listener (optimized to prevent re-renders)
+  useEffect(() => {
+    const handleScroll = () => {
+      const shouldFix = window.scrollY > 20;
+      setIsScrolled((prev) => (prev !== shouldFix ? shouldFix : prev));
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [location]);
+
+  // Search Handler (global search state + navigate)
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    dispatch(setSearchTerm(value));
+    if (value.trim().length > 0) navigate("/products");
+  };
+
   return (
     <>
-      <div className="navbar bg-base-100 shadow-sm">
+      {/* Main Navbar */}
+      <div
+        className={`navbar top-0 left-0 w-full h-16 z-50 duration-300 ease-in-out ${
+          isScrolled
+            ? "fixed bg-neutral/80 backdrop-blur-md shadow-md"
+            : "relative bg-transparent backdrop-blur-0 shadow-none"
+        }`}
+      >
+        {/* Left Section */}
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -12,59 +50,70 @@ export default function Navbar() {
                 viewBox="0 0 24 24"
                 stroke="currentColor"
               >
-                {" "}
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
                   strokeWidth="2"
                   d="M4 6h16M4 12h8m-8 6h16"
-                />{" "}
+                />
               </svg>
             </div>
             <ul
               tabIndex="-1"
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              className={`menu menu-sm dropdown-content bg-base-100 rounded-box z-20 mt-3 w-52 p-2 shadow ${
+                isScrolled ? "text-black" : "text-white"
+              }`}
             >
               <li>
-                <a>Item 1</a>
+                <Link to="/">Home</Link>
               </li>
               <li>
-                <a>Parent</a>
-                <ul className="p-2">
-                  <li>
-                    <a>Submenu 1</a>
-                  </li>
-                  <li>
-                    <a>Submenu 2</a>
-                  </li>
-                </ul>
+                <Link to="/products">Products</Link>
               </li>
               <li>
-                <a>Item 3</a>
+                <Link to="/about">About</Link>
               </li>
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl">Vastra</a>
+
+          {/* Brand / Logo */}
+          <Link to="/" className="btn btn-ghost text-xl">
+            <img
+              src="logo.png"
+              alt="Vastra"
+              className="inline-block w-8 h-8 mr-2"
+            />{" "}
+            Vastra
+          </Link>
         </div>
+
+        {/* Center Menu */}
         <div className="navbar-center hidden lg:flex">
-          <ul className="menu menu-horizontal px-1">
+          <ul tabIndex="-1" className={`menu menu-horizontal px-1 shadow`}>
             <li>
-              <a>Home</a>
+              <Link to="/">Home</Link>
             </li>
             <li>
-              <a className="btn">Products</a>
+              <Link to="/products">Products</Link>
             </li>
             <li>
-              <a>About</a>
+              <Link to="/about">About</Link>
             </li>
           </ul>
         </div>
+
+        {/* Right Section */}
         <div className="navbar-end flex gap-2">
+          {/* Search Input */}
           <input
             type="text"
-            placeholder="Search"
-            className="input input-bordered w-24 md:w-auto"
+            placeholder="Search products"
+            value={searchTerm}
+            onChange={handleSearch}
+            className="input input-bordered w-24 md:w-64 transition-all"
           />
+
+          {/* Cart Dropdown */}
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
@@ -79,20 +128,20 @@ export default function Navbar() {
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
-                  {" "}
                   <path
                     strokeLinecap="round"
                     strokeLinejoin="round"
                     strokeWidth="2"
                     d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"
-                  />{" "}
+                  />
                 </svg>
                 <span className="badge badge-sm indicator-item">8</span>
               </div>
             </div>
+
             <div
               tabIndex={0}
-              className="card card-compact dropdown-content bg-base-100 z-1 mt-3 w-52 shadow"
+              className="card card-compact dropdown-content bg-base-100 z-20 mt-3 w-52 shadow"
             >
               <div className="card-body">
                 <span className="text-lg font-bold">8 Items</span>
@@ -105,6 +154,8 @@ export default function Navbar() {
               </div>
             </div>
           </div>
+
+          {/* Profile Dropdown */}
           <div className="dropdown dropdown-end">
             <div
               tabIndex={0}
@@ -114,22 +165,16 @@ export default function Navbar() {
               <div className="w-10 rounded-full">
                 <img
                   alt="Tailwind CSS Navbar component"
-                  src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                  src="https://img.daisyui.com/images/profile/demo/spiderperson@192.webp"
                 />
               </div>
             </div>
             <ul
               tabIndex="-1"
-              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
+              className="menu menu-sm dropdown-content bg-base-100 rounded-box z-20 mt-3 w-52 p-2 shadow"
             >
               <li>
-                <a className="justify-between">
-                  Profile
-                  <span className="badge">New</span>
-                </a>
-              </li>
-              <li>
-                <a>Settings</a>
+                <Link to="/profile">Profile</Link>
               </li>
               <li>
                 <a>Logout</a>
@@ -138,6 +183,9 @@ export default function Navbar() {
           </div>
         </div>
       </div>
+
+      {/* Spacer to prevent layout shift */}
+      {isScrolled && <div className="h-16 w-full" />}
     </>
   );
 }
