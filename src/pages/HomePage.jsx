@@ -4,13 +4,11 @@ export default function HomePage() {
       <div className="hero bg-super-grad min-h-screen">
         <div className="hero-content text-center">
           <div className="max-w-md">
-            <h1 className="text-5xl font-bold">Hello there</h1>
+            <h1 className="text-5xl font-bold">Discover Your Style</h1>
             <p className="py-6">
-              Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda
-              excepturi exercitationem quasi. In deleniti eaque aut repudiandae
-              et a id nisi.
+              Explore our latest collection of thoughtfully crafted apparel. From effortless basics to statement pieces, find what speaks to you — and feel confident in every moment.
             </p>
-            <button className="btn btn-primary">Get Started</button>
+            <button className="btn btn-primary">Explore our Featured Collection</button>
           </div>
         </div>
       </div>

@@ -35,8 +35,8 @@ export default function Navbar() {
       <div
         className={`navbar top-0 left-0 w-full h-16 z-50 duration-300 ease-in-out ${
           isScrolled
-            ? "fixed bg-neutral/80 backdrop-blur-md shadow-md"
-            : "relative bg-transparent backdrop-blur-0 shadow-none"
+            ? "fixed bg-translucent backdrop-blur-lg shadow-md"
+            : "relative bg-super-grad"
         }`}
       >
         {/* Left Section */}
@@ -77,11 +77,11 @@ export default function Navbar() {
           </div>
 
           {/* Brand / Logo */}
-          <Link to="/" className="btn btn-ghost text-xl">
+          <Link to="/" className="btn btn-ghost text-white text-3xl font-bold">
             <img
               src="logo.png"
               alt="Vastra"
-              className="inline-block w-8 h-8 mr-2"
+              className="inline-block w-12 h-12 mr-2"
             />{" "}
             Vastra
           </Link>
@@ -89,7 +89,7 @@ export default function Navbar() {
 
         {/* Center Menu */}
         <div className="navbar-center hidden lg:flex">
-          <ul tabIndex="-1" className={`menu menu-horizontal px-1 shadow`}>
+          <ul tabIndex="-1" className={`menu menu-horizontal px-1`}>
             <li>
               <Link to="/">Home</Link>
             </li>
