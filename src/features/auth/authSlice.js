@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { createUserThunk, loginUserThunk, logoutUserThunk } from "./authThunks";
+import { createUserThunk, loginUserThunk, googleLoginThunk, logoutUserThunk } from "./authThunks";
 
 const initialState = {
     user: null,
-    loading: false,
+    loading: true,
     error: null,
 }
 
@@ -13,6 +13,7 @@ const authSlice = createSlice({
     reducers: {
         setUser(state, action) {
             state.user = action.payload;
+            state.loading = false;
         },
     },
     extraReducers: (builder) => {
@@ -44,19 +45,15 @@ const authSlice = createSlice({
             state.loading = false;
             state.error = action.payload;
         })
+        .addCase(googleLoginThunk.fulfilled, (state, action) => {
+            state.loading = false;
+            state.user = action.payload;
+        })
 
         // log out
-        .addCase(logoutUserThunk.pending, (state) => {
-            state.loading = true;
-            state.error = null;
-        })
         .addCase(logoutUserThunk.fulfilled, (state) => {
             state.loading = false;
             state.user = null;
-        })
-        .addCase(logoutUserThunk.rejected, (state, action) => {
-            state.loading = false;
-            state.error = action.payload;
         })
     }
 })

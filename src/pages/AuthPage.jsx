@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { createUserThunk, loginUserThunk } from "../features/auth/authThunks";
-import { toast } from "react-toastify";
+import { createUserThunk, googleLoginThunk, loginUserThunk } from "../features/auth/authThunks";
+import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "../api/firebase";
 import ClipLoader from "react-spinners/ClipLoader";
 
 const AuthPage = () => {
@@ -17,10 +15,6 @@ const AuthPage = () => {
   const { user, loading, error } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user) navigate("/");
-  }, [user, navigate]);
 
   useEffect(() => {
     if (error) toast.error(error);
@@ -58,17 +52,15 @@ const AuthPage = () => {
     }
   };
 
-  const handleGoogleLogin = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      toast.success(`Welcome ${user.displayName || "User"}!`);
+  useEffect(() => {
+    if (user) {
+      toast.success(`Welcome ${user.name || "User"}!`);
       navigate("/");
-    } catch (error) {
-      console.error("Google Login Error:", error);
-      toast.error("Google Sign-In failed. Try again!");
     }
+  }, [user]);
+
+  const handleGoogleLogin = () => {
+    dispatch(googleLoginThunk());
   };
 
   return (

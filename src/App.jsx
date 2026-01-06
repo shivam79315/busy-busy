@@ -1,10 +1,18 @@
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import Navbar from "./components/Navbar";
 import AppRoutes from "./routes/AppRoutes";
 
-import { BrowserRouter } from "react-router-dom";
-import "./styles/App.css";
+import "./styles/index.css";
+import { startAuthListener } from "./features/auth/authListener";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    startAuthListener(dispatch);
+  }, [dispatch]);
+  
   return (
     <>
       <Navbar />

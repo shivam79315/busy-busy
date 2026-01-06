@@ -11,7 +11,7 @@ export default function ProductsPage() {
   const searchTerm = useSelector((state) => state.search.searchTerm);
 
   useEffect(() => {
-    dispatch(fetchProductsByCategory("electronics"));
+    dispatch(fetchProductsByCategory());
   }, [dispatch]);
 
   const filteredProducts = products.filter((p) =>
@@ -22,9 +22,9 @@ export default function ProductsPage() {
   if (error) return <p className="text-center text-red-500 mt-10">{error}</p>;
 
   return (
-    <div className="flex w-full h-screen bg-super-grad lg:flex-row gap-6 p-4">
+    <div className="flex w-full h-auto lg:flex-row gap-6 p-4">
       {/* Scrollable product list container */}
-      <div className="flex-1 bg-super-grad overflow-y-auto scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-transparent p-6">
+      <div className="flex-1 overflow-y-auto p-6">
         <ProductList products={filteredProducts} />
       </div>
     </div>

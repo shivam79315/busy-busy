@@ -28,21 +28,23 @@ body {
 
 /* ==== Custom Background: Gradient + Dotted Pattern ==== */
 .bg-super-grad {
-  background: radial-gradient(circle at 10% 20%, rgba(34,197,94,0.15) 0%, transparent 80%),
-              linear-gradient(to right, #0f172a 15%, #0f172a 30%, #020617 100%);
   position: relative;
-  overflow: hidden;
+  z-index: 0;
 }
 
 .bg-super-grad::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+  z-index: -1;
+  pointer-events: none;
+  background-image: radial-gradient(
+    rgba(255,255,255,0.08) 1px,
+    transparent 1px
+  );
   background-size: 20px 20px;
   opacity: 1;
-  left: 0;
-  width: 50%; /* dotted grid up to 15% width */
+  width: 50%;
   mask-image: linear-gradient(to right, black 60%, transparent 100%);
   -webkit-mask-image: linear-gradient(to right, black 60%, transparent 100%);
 }
@@ -51,6 +53,11 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to right, rgba(34,197,94,0.05), transparent 60%);
+  z-index: -1;
   pointer-events: none;
+  background: linear-gradient(
+    to right,
+    rgba(34,197,94,0.05),
+    transparent 60%
+  );
 }

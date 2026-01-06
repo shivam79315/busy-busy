@@ -64,7 +64,6 @@ busybuy/
 │   │   ├── Sidebar.jsx
 │   │   ├── ProductCard.jsx
 │   │   ├── Loader.jsx
-│   │   └── ToastContainer.jsx
 │   ├── features/
 │   │   ├── auth/
 │   │   │   ├── authSlice.js
@@ -133,15 +132,6 @@ service cloud.firestore {
 5️⃣ Run the development server
 npm run dev
 Visit http://localhost:5173
-
-------------------------------------------------------------
-🌿 TAILWIND + DAISYUI SETUP
-
-@import "tailwindcss";
-@plugin "daisyui" {
-  themes: forest;
-  logs: true;
-}
 
 ------------------------------------------------------------
 🧭 ROUTES

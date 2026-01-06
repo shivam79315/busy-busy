@@ -1,15 +1,17 @@
 // src/routes/AppRoutes.jsx
+import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 
 // Pages
-import HomePage from "../pages/HomePage";
-import AuthPage from "../pages/AuthPage";
-// import CartPage from "../pages/CartPage";
-import ProductsPage from "../pages/ProductsPage";
-import NotFoundPage from "../pages/NotFoundPage";
+const HomePage = lazy(() => import("../pages/HomePage"));
+const ProductsPage = lazy(() => import("../pages/ProductsPage"));
+const CartPage = lazy(() => import("../pages/CartPage"));
+const ProfilePage = lazy(() => import("../pages/ProfilePage"));
 
-// Optional Navbar import
-// import Navbar from "../components/Navbar";
+import AuthPage from "../pages/AuthPage";
+import NotFoundPage from "../pages/NotFoundPage";
+import ProtectedRoute from "./ProtectedRoute";
+import Loader from "../components/products/Loader";
 
 const AppRoutes = () => {
   return (
@@ -17,10 +19,20 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/auth" element={<AuthPage />} />
-        <Route path="/products" element={<ProductsPage />} />
-        
-        {/* <Route path="/cart" element={<CartPage />} /> */}
-        {/* <Route path="/myorders" element={<OrdersPage />} /> */}
+
+        {/* Protected Routes */}
+        <Route
+          element={
+            <Suspense fallback={<Loader />}>
+              <ProtectedRoute />
+            </Suspense>
+          }
+        >
+          <Route path="/products" element={<ProductsPage />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/cart" element={<CartPage />} />
+        </Route>
+
         {/* Fallback for invalid URLs */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
