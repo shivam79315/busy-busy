@@ -30,7 +30,7 @@ export const addToCart = async (uid, product) => {
       quantity: 1,
       addedAt: serverTimestamp(),
     });
-    return { action: "added", productId: product.id };
+    return { action: "added", productId: product.id, product };
   }
 };
 

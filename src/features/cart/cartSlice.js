@@ -29,10 +29,16 @@ const cartSlice = createSlice({
         state.loading = false;
       })
       .addCase(addToCartThunk.fulfilled, (state, action) => {
-        const { productId } = action.payload;
+        const { productId, product } = action.payload;
         const existing = state.items.find((i) => i.id === productId);
         if (existing) {
           existing.quantity += 1;
+        } else {
+          state.items.push({
+            id: productId,
+            ...product,
+            quantity: 1,
+          })
         }
       })
       .addCase(decrementCartThunk.fulfilled, (state, action) => {

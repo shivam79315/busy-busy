@@ -19,6 +19,7 @@ const AppRoutes = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/auth" element={<AuthPage />} />
+        <Route path="/products" element={<ProductsPage />} />
 
         {/* Protected Routes */}
         <Route
@@ -28,7 +29,6 @@ const AppRoutes = () => {
             </Suspense>
           }
         >
-          <Route path="/products" element={<ProductsPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/cart" element={<CartPage />} />
         </Route>
