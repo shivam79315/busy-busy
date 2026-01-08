@@ -2,9 +2,17 @@
 import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 import Loader from "../components/products/Loader";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 const ProtectedRoute = () => {
   const { user, loading } = useSelector((state) => state.auth);
+
+   useEffect(() => {
+    if (!loading && !user) {
+      toast.error("Please login to access this page!");
+    }
+  }, [loading, user]);
 
   if (loading) {
     return <Loader />;
