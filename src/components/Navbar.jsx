@@ -13,7 +13,6 @@ export default function Navbar() {
   const dispatch = useDispatch();
   const searchTerm = useSelector((state) => state.search.searchTerm);
   const cartCount = useSelector((state) => state.cart.items.reduce((total, item) => total + item.quantity, 0 ));
-  console.log(cartCount)
   const navigate = useNavigate();
 
   const user = useSelector((state) => state.auth.user);

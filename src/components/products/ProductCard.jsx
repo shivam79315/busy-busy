@@ -24,8 +24,8 @@ const ProductCard = memo(function ProductCard({
           />
 
           {!inStock && (
-            <div className="absolute inset-0 bg-background/80 flex items-center justify-center">
-              <Badge variant="destructive">Out of Stock</Badge>
+            <div className="absolute inset-0 bg-background/80 text-primary flex items-center justify-center">
+              <Badge className="text-white text-lg bg-primary" variant="destructive">Out of Stock</Badge>
             </div>
           )}
 
@@ -48,14 +48,14 @@ const ProductCard = memo(function ProductCard({
             {category}
           </Badge>
 
-          <h3 className="font-semibold line-clamp-2">{title}</h3>
+          <h3 className="font-semibold line-clamp-2 mb-0">{title}</h3>
 
-          <span className="text-2xl font-bold text-primary">
+          <span className="text-2xl text-white font-bold text-primary">
             ${price.toFixed(2)}
           </span>
 
           <Button
-            className="w-full cursor-pointer"
+            className="w-full mt-4 text-white cursor-pointer"
             onClick={onAddToCart}
             disabled={!inStock}
           >

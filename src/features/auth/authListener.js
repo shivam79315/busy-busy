@@ -11,7 +11,7 @@ export const startAuthListener = (dispatch) => {
   return onAuthStateChanged(auth, async (user) => {
     if (user) {
       
-      await syncUserToFirestore(user);
+      syncUserToFirestore(user);
 
       dispatch(
         setUser({

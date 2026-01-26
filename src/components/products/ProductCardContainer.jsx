@@ -8,11 +8,7 @@ export default function ProductCardContainer({product}) {
     const dispatch = useDispatch();
 
     const user = useSelector((state) => state.auth.user);
-    const wishlistIds = useSelector(
-        (state) => state.wishlist.items.map((i) => i.id),
-        shallowEqual
-    );
-
+    const wishlistIds = useSelector((state) => state.wishlist.ids);
     const isWishlisted = wishlistIds.includes(product.id);
 
     const onToggleWishlist = () => {
