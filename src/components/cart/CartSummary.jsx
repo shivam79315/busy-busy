@@ -3,9 +3,12 @@ import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
 import { createCheckoutSession } from "../../api/stripe";
+import { getAuth } from "firebase/auth";
 
 export default function CartSummary({ items }) {
-  console.log(items)
+  const auth = getAuth();
+  const user = auth.currentUser;
+
   const subtotal = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -13,7 +16,7 @@ export default function CartSummary({ items }) {
 
   const handleSubmit = async () => {
     try {
-      const session = await createCheckoutSession(items);
+      const session = await createCheckoutSession(items, user.uid);
       if (session.url) {
         window.location.href = session.url;
       }
