@@ -16,10 +16,10 @@ export const toggleWishlistItem = async (uid, product) => {
 
   if (snap.exists()) {
     await deleteDoc(ref);
-    return { action: "removed", productId: product.id };
+    return { action: "removed", productId: product.productId };
   } else {
     await setDoc(ref, {
-      productId: product.id,
+      productId: product.productId,
       title: product.title,
       price: product.price,
       image: product.image,

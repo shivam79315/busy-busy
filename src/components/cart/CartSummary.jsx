@@ -2,12 +2,25 @@
 import { Card, CardContent } from "../ui/card";
 import { Button } from "../ui/button";
 import { Separator } from "../ui/separator";
+import { createCheckoutSession } from "../../api/stripe";
 
 export default function CartSummary({ items }) {
+  console.log(items)
   const subtotal = items.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+
+  const handleSubmit = async () => {
+    try {
+      const session = await createCheckoutSession(items);
+      if (session.url) {
+        window.location.href = session.url;
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   return (
     <Card className="border-border/40 bg-background/80 backdrop-blur">
@@ -33,7 +46,9 @@ export default function CartSummary({ items }) {
           <span>${subtotal.toFixed(2)}</span>
         </div>
 
-        <Button className="w-full cursor-pointer font-bold h-12 text-lg bg-primary hover:bg-primary/90">
+        <Button 
+          onClick={handleSubmit}
+          className="w-full cursor-pointer font-bold h-12 text-lg bg-primary hover:bg-primary/90">
           Proceed to Checkout
         </Button>
       </CardContent>

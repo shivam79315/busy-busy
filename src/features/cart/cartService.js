@@ -21,7 +21,7 @@ export const addToCart = async (uid, product) => {
     return { action: "incremented", productId: product.id };
   } else {
     await setDoc(cartRef, {
-      productId: product.id,
+      productId: product.productId,
       title: product.title,
       price: product.price,
       image: product.image,
